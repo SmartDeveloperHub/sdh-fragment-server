@@ -34,7 +34,7 @@ from sdh.fragments import cache
 
 __author__ = 'Fernando Serena'
 
-CURATOR = app.config['CURATOR']
+PROVIDER = app.config['PROVIDER']
 
 
 class APIError(Exception):
@@ -93,7 +93,7 @@ def get_fragment():
         raise APIError('Invalid graph pattern')
 
     tps = re.split('\. ', gp_match[0])
-    prefixes, fragment_gen = get_fragment_generator(*tps, host=CURATOR['host'], port=CURATOR['port'], monitoring=10)
+    prefixes, fragment_gen = get_fragment_generator(*tps, monitoring=10, **PROVIDER)
     graph = Graph()
     for prefix in prefixes:
         graph.bind(prefix, prefixes[prefix])
@@ -120,6 +120,6 @@ def query():
         raise APIError('Invalid graph pattern')
 
     tps = re.split('\. ', gp_match[0])
-    prefixes, result_gen = get_query_generator(*tps, host=CURATOR['host'], port=CURATOR['port'], monitoring=10)
+    prefixes, result_gen = get_query_generator(*tps, monitoring=10, **PROVIDER)
 
     return Response(stream_with_context(get_results()), mimetype='application/json')

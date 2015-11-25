@@ -29,9 +29,10 @@ import logging
 
 class Config(object):
     PORT = 5006
-    CURATOR = {
-        'host': 'localhost',
-        'port': 5672
+    PROVIDER = {
+        'broker_host': '138.4.249.224',
+        'agora_host': 'http://138.4.249.224',
+        'agora_port': 9009
     }
 
 
